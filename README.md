@@ -1,210 +1,206 @@
-<<<<<<< Updated upstream
-=======
-📌 PROJECT NAME:
-
-BlueSphere
-(A one-word, India-cricket themed modern brand)
+| ------------------------------------------------- |
+| PROJECT NAME: |
+| ------------------------------------------------- |
+| BlueSphere |
+| (A one-word, India-cricket themed modern brand) |
+| ------------------------------------------------- |
 
 📌 PROJECT DESCRIPTION
 
->>>>>>> Stashed changes
-BlueSphere is a Hybrid MERN cricket platform dedicated to the Indian Cricket Team, combining your own database (players, matches, news, polls) with 3rd-party APIs (live scores, match status).
+        BlueSphere is a Hybrid MERN cricket platform dedicated to the Indian Cricket Team, combining your own database (players, matches, news, polls) with 3rd-party APIs (live scores, match status).
 
-The website will serve as a central hub for:
+        The website will serve as a central hub for:
 
-Team India players
+        Team India players
 
-Player profiles
+        Player profiles
 
-Match schedules
+        Match schedules
 
-Scorecards
+        Scorecards
 
-Live scores
+        Live scores
 
-Team statistics
+        Team statistics
 
-News and media
+        News and media
 
-Fan polls & quizzes
+        Fan polls & quizzes
 
-Admin CMS panel
-<<<<<<< Updated upstream
-=======
+        Admin CMS panel
 
 📌 USER ROLES (VERY IMPORTANT)
 👤 1. Guest User (Not Logged In)
 
-Can:
+                Can:
 
-View Home page
+                        View Home page
 
-View Squad (players)
+                        View Squad (players)
 
-View Player Profiles
+                        View Player Profiles
 
-View Match schedule
+                        View Match schedule
 
-View Match details
+                        View Match details
 
-View News
+                        View News
 
-View Fan Zone quizzes
+                        View Fan Zone quizzes
 
-Vote in polls (optional – can limit this)
+                        Vote in polls (optional – can limit this)
 
-Contact form
+                        Contact form
 
-View static stats
+                        View static stats
 
-See live score
+                        See live score
 
-Cannot:
+                        Cannot:
 
-Comment
+                        Comment
 
-Save favorite players
+                        Save favorite players
 
-Save quiz scores
+                        Save quiz scores
 
-Access Admin area
+                        Access Admin area
 
-Add news
+                        Add news
 
-Add players
+                        Add players
 
-🔐 2. Registered User (Logged In)
+        🔐 2. Registered User (Logged In)
 
-Everything Guest can do, plus:
+                Everything Guest can do, plus:
 
-Extra Abilities:
+                        Extra Abilities:
 
-Save favorite players
+                                Save favorite players
 
-Join polls (1 vote per poll)
+                                Join polls (1 vote per poll)
 
-Post Fan Comments
+                                Post Fan Comments
 
-Save News articles (favorite)
+                                Save News articles (favorite)
 
-Take quizzes + store progress
+                                Take quizzes + store progress
 
-Create their own Dream XI
+                                Create their own Dream XI
 
-Participate in prediction games
+                                Participate in prediction games
 
-Cannot:
+                        Cannot:
 
-Access admin dashboard
+                                Access admin dashboard
 
-Publish content
+                                Publish content
 
-Modify system data
+                                Modify system data
 
-🛡️ 3. Admin (Login + Role = admin)
+        🛡️ 3. Admin (Login + Role = admin)
 
-Admin gets full control.
+                Admin gets full control.
 
-Admin Abilities:
+                        Admin Abilities:
 
-Add / Edit / Delete players
+                                Add / Edit / Delete players
 
-Add / Edit / Delete matches
+                                Add / Edit / Delete matches
 
-Add / Edit / Delete news
+                                Add / Edit / Delete news
 
-Upload player images
+                                Upload player images
 
-Upload match banners
+                                Upload match banners
 
-Manage polls (create/reset)
+                                Manage polls (create/reset)
 
-View poll results
+                                View poll results
 
-Moderate comments
+                                Moderate comments
 
-Disable users
+                                Disable users
 
-Dashboard analytics
+                                Dashboard analytics
 
-Admin Panel will be at:
+                        Admin Panel will be at:
 
-/admin
+                                /admin
 
 📌 FEATURE CLASSIFICATION
 ⭐ Features not requiring login (public)
 
-Home page
+                Home page
 
-Player list
+                Player list
 
-Player profile
+                Player profile
 
-Live match score
+                Live match score
 
-Match schedule
+                Match schedule
 
-Stats
+                Stats
 
-News list
+                News list
 
-News article detail
+                News article detail
 
-Fan Zone (view only quizzes & polls)
+                Fan Zone (view only quizzes & polls)
 
-Contact page
+                Contact page
 
-🔐 Features requiring login
+        🔐 Features requiring login
 
-Add/remove favorite players
+                Add/remove favorite players
 
-Participate in quizzes with saved results
+                Participate in quizzes with saved results
 
-Vote in polls (1 vote)
+                Vote in polls (1 vote)
 
-Fan comments (write)
+                Fan comments (write)
 
-Fan tournaments (optional)
+                Fan tournaments (optional)
 
-Prediction games
+                Prediction games
 
-🛡️ Admin-only features
+        🛡️ Admin-only features
 
-Managing all players
+                Managing all players
 
-Managing matches
+                Managing matches
 
-Managing polls
+                Managing polls
 
-Managing news
+                Managing news
 
-Adding images (Cloudinary)
+                Adding images (Cloudinary)
 
-Approving comments
+                Approving comments
 
-Viewing analytics
+                Viewing analytics
 
 📌 SYSTEM MODULES
 
-These are the main system sections:
+        These are the main system sections:
 
-Auth Module
+                Auth Module
 
-Players Module
+                Players Module
 
-Matches Module
+                Matches Module
 
-Live Score Module (3rd party API)
+                Live Score Module (3rd party API)
 
-News Module
+                News Module
 
-Stats Module
+                Stats Module
 
-Fan Zone Module
+                Fan Zone Module
 
-Admin CMS Module
+                Admin CMS Module
 
-Favorites Module
+                Favorites Module
 
-Comments Module
->>>>>>> Stashed changes
+                Comments Module
