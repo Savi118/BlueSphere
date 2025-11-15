@@ -32,6 +32,7 @@ import Navbar from "./components/Navbar";
 // Additional Pages
 import PlayerProfile from "./pages/additional/PlayerProfile";
 import MatchDetail from "./pages/additional/MatchDetail";
+import NewsDetail from "./pages/additional/NewsDetail";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path='/matches/:matchId' element={<MatchDetail />} />
           <Route path='/stats' element={<Stats />} />
           <Route path='/news' element={<News />} />
+          <Route path='/news/:newsId' element={<NewsDetail />} />
           <Route path='/fan-zone' element={<FanZone />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/signup' element={<Signup />} />
