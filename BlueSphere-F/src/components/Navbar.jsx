@@ -145,6 +145,7 @@ const Navbar = () => {
             <>
               <Link
                 to='/login'
+                onClick={() => setMobileMenu(false)}
                 className='block py-2 bg-blue-600 text-white text-center rounded-lg shadow hover:bg-blue-700'
               >
                 Sign In
