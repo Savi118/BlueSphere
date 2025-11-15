@@ -68,7 +68,7 @@ const Home = () => {
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className='bg-gradient-to-r from-blue-600 via-blue-400 to-blue-200 text-white rounded-xl p-10 shadow-lg flex flex-col md:flex-row items-center justify-between'
+        className='bg-linear-to-r from-blue-600 via-blue-400 to-blue-200 text-white rounded-xl p-10 shadow-lg flex flex-col md:flex-row items-center justify-between'
       >
         <div>
           <h1 className='text-5xl font-extrabold mb-4'>Team India 🇮🇳</h1>
