@@ -29,6 +29,9 @@ import AdminPolls from "./pages/admin/AdminPolls";
 // components
 import Navbar from "./components/Navbar";
 
+// Additional Pages
+import PlayerProfile from "./pages/additional/PlayerProfile";
+
 function App() {
   return (
     <div className='min-h-screen flex flex-col bg-gray-50 text-gray-800'>
@@ -40,6 +43,7 @@ function App() {
           {/* Public Routes */}
           <Route path='/' element={<Home />} />
           <Route path='/squad' element={<Squad />} />
+          <Route path='/squad/:playerId' element={<PlayerProfile />} />
           <Route path='/matches' element={<Matches />} />
           <Route path='/stats' element={<Stats />} />
           <Route path='/news' element={<News />} />
