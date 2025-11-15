@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500" role="img" aria-label="Indian cricket style emblem with transparent background">
+
+  <!-- Outer scalloped ring -->
+  <circle cx="250" cy="250" r="200"
+          fill="none"
+          stroke="#0033a0"
+          stroke-width="34"
+          stroke-linecap="round"
+          stroke-dasharray="0 28"/>
+
+  <!-- Outer gold ring -->
+  <circle cx="250" cy="250" r="170" fill="#f2c14e"/>
+
+  <!-- Blue ring -->
+  <circle cx="250" cy="250" r="150" fill="#0033a0"/>
+
+  <!-- White ring -->
+  <circle cx="250" cy="250" r="112" fill="white"/>
+
+  <!-- 24-spoke wheel -->
+  <g stroke="#0033a0" stroke-width="2" stroke-linecap="round">
+    <!-- spokes every 15° -->
+    <line x1="250" y1="138" x2="250" y2="208"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(15 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(30 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(45 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(60 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(75 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(90 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(105 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(120 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(135 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(150 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(165 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(180 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(195 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(210 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(225 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(240 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(255 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(270 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(285 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(300 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(315 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(330 250 250)"/>
+    <line x1="250" y1="138" x2="250" y2="208" transform="rotate(345 250 250)"/>
+
+    <!-- center hub -->
+    <circle cx="250" cy="250" r="10" fill="#0033a0"/>
+  </g>
+
+  <!-- Gold center disc -->
+  <circle cx="250" cy="250" r="36" fill="#f2c14e" stroke="#c48a1f" stroke-width="2"/>
+
+  <!-- star pattern -->
+  <g transform="translate(250,250)" fill="#0033a0">
+    <polygon points="0,-18 4,-6 16,-6 7,2 10,14 0,7 -10,14 -7,2 -16,-6 -4,-6"/>
+  </g>
+
+  <!-- optional text -->
+  <text x="250" y="350" font-family="Verdana, Arial" font-size="30" fill="#0033a0"
+        font-weight="700" text-anchor="middle">BCCI</text>
+
+</svg>
