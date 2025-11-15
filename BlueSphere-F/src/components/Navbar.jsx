@@ -4,7 +4,7 @@ import { useState } from "react";
 const Navbar = () => {
   let user = null;
   // user = "admin";
-  // user = "fan";
+  user = "fan";
 
   const [openDropdown, setOpenDropdown] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -113,7 +113,15 @@ const Navbar = () => {
                 </div>
               ) : (
                 fanLinks.map((item) => (
-                  <NavLink key={item.to} to={item.to} className={linkClass}>
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    className={({ isActive }) =>
+                      `${linkClass} ${
+                        isActive ? "text-blue-800 font-semibold underline" : ""
+                      }`
+                    }
+                  >
                     {item.label}
                   </NavLink>
                 ))
