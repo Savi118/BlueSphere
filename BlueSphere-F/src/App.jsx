@@ -31,6 +31,7 @@ import Navbar from "./components/Navbar";
 
 // Additional Pages
 import PlayerProfile from "./pages/additional/PlayerProfile";
+import MatchDetail from "./pages/additional/MatchDetail";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path='/squad' element={<Squad />} />
           <Route path='/squad/:playerId' element={<PlayerProfile />} />
           <Route path='/matches' element={<Matches />} />
+          <Route path='/matches/:matchId' element={<MatchDetail />} />
           <Route path='/stats' element={<Stats />} />
           <Route path='/news' element={<News />} />
           <Route path='/fan-zone' element={<FanZone />} />
