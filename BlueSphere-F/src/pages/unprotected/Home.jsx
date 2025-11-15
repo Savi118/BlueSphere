@@ -68,7 +68,7 @@ const Home = () => {
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className='bg-linear-to-r from-blue-600 via-blue-400 to-blue-200 text-white rounded-xl p-10 shadow-lg flex flex-col md:flex-row items-center justify-between'
+        className='bg-gradient-to-r from-blue-600 via-blue-400 to-blue-200 text-white rounded-xl p-10 shadow-lg flex flex-col md:flex-row items-center justify-between'
       >
         <div>
           <h1 className='text-5xl font-extrabold mb-4'>Team India 🇮🇳</h1>
@@ -146,7 +146,7 @@ const Home = () => {
             <motion.div
               key={player.name}
               whileHover={{ scale: 1.05 }}
-              className='bg-blue-300 shadow border border-gray-200 rounded-xl p-6 text-center'
+              className='bg-white shadow border border-gray-200 rounded-xl p-6 text-center'
             >
               <img
                 src={player.img}
