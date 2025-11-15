@@ -33,19 +33,25 @@ const Navbar = () => {
   ];
 
   const linkClass =
-    "px-4 py-2 text-gray-700 hover:text-blue-600 transition font-medium";
+    "px-4 py-2 text-gray-700 hover:text-blue-700 transition font-medium relative group";
+
+  const activeUnderline =
+    "after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-blue-700 after:rounded-full";
+
+  const hoverUnderline =
+    "group-hover:after:w-full after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-blue-400 after:transition-all after:duration-300";
 
   return (
-    <header className='bg-blue-100 border-b border-blue-200 w-full px-6 py-4 shadow-sm'>
+    <header className='bg-white/70 backdrop-blur-md border-b border-blue-200 w-full px-6 py-3 shadow-sm sticky top-0 z-50'>
       <div className='flex items-center justify-between'>
         {/* Logo */}
         <Link to='/'>
-          <h1 className='bg-linear-to-r from-blue-600 via-orange-500 to-green-600 bg-clip-text text-4xl font-extrabold text-transparent'>
+          <h1 className='text-4xl font-extrabold bg-linear-to-r from-blue-700 via-sky-500 to-green-500 bg-clip-text text-transparent drop-shadow-sm'>
             BlueSphere
           </h1>
         </Link>
 
-        {/* Hamburger Button (Mobile) */}
+        {/* Hamburger (Mobile) */}
         <button
           onClick={() => setMobileMenu(!mobileMenu)}
           className='md:hidden text-gray-700 text-3xl focus:outline-none'
@@ -61,7 +67,9 @@ const Navbar = () => {
               to={item.to}
               className={({ isActive }) =>
                 `${linkClass} ${
-                  isActive ? "text-blue-800 font-semibold underline" : ""
+                  isActive
+                    ? "text-blue-800 font-semibold " + activeUnderline
+                    : hoverUnderline
                 }`
               }
             >
@@ -71,15 +79,18 @@ const Navbar = () => {
 
           {user === null ? (
             <>
+              {/* Sign In */}
               <Link
                 to='/login'
-                className='px-4 py-2 text-blue-600 hover:border-blue-600 border-0 rounded-lg hover:shadow hover:text-white hover:bg-blue-600 font-semibold'
+                className='px-4 py-2 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white shadow-sm transition font-semibold'
               >
                 Sign In
               </Link>
+
+              {/* Join */}
               <Link
                 to='/signup'
-                className='px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 font-semibold'
+                className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-lg font-semibold'
               >
                 Join Fan Club
               </Link>
@@ -91,19 +102,19 @@ const Navbar = () => {
                 <div className='relative'>
                   <button
                     onClick={() => setOpenDropdown(!openDropdown)}
-                    className='px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700'
+                    className='px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 flex items-center gap-1'
                   >
                     Admin Panel ▾
                   </button>
 
                   {openDropdown && (
-                    <div className='absolute top-12 right-0 bg-white shadow-xl border border-gray-200 rounded-lg w-60 py-2 z-50'>
+                    <div className='absolute top-12 right-0 bg-white shadow-xl border border-gray-200 rounded-lg w-64 py-2 z-50 animate-fadeIn'>
                       {adminLinks.map((item) => (
                         <NavLink
                           key={item.to}
                           to={item.to}
-                          className='block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-700'
                           onClick={() => setOpenDropdown(false)}
+                          className='block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition'
                         >
                           {item.label}
                         </NavLink>
@@ -118,7 +129,9 @@ const Navbar = () => {
                     to={item.to}
                     className={({ isActive }) =>
                       `${linkClass} ${
-                        isActive ? "text-blue-800 font-semibold underline" : ""
+                        isActive
+                          ? "text-blue-800 font-semibold " + activeUnderline
+                          : hoverUnderline
                       }`
                     }
                   >
@@ -127,6 +140,7 @@ const Navbar = () => {
                 ))
               )}
 
+              {/* Logout Button */}
               <button className='ml-4 px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600'>
                 Logout
               </button>
@@ -135,15 +149,15 @@ const Navbar = () => {
         </nav>
       </div>
 
-      {/* MOBILE MENU DROPDOWN */}
+      {/* Mobile Menu */}
       {mobileMenu && (
-        <div className='md:hidden mt-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 space-y-3'>
+        <div className='md:hidden mt-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-lg shadow-lg p-4 space-y-3 animate-fadeIn'>
           {baseLinks.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               onClick={() => setMobileMenu(false)}
-              className='block py-2 text-gray-700 hover:text-blue-600'
+              className='block py-2 text-gray-700 hover:text-blue-700 transition'
             >
               {item.label}
             </NavLink>
@@ -168,7 +182,7 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              {/* Admin dropdown for mobile */}
+              {/* Admin Panel */}
               {user === "admin" && (
                 <div className='pt-2 border-t'>
                   <p className='font-semibold text-gray-800 mb-2'>
@@ -179,7 +193,7 @@ const Navbar = () => {
                       key={item.to}
                       to={item.to}
                       onClick={() => setMobileMenu(false)}
-                      className='block py-2 pl-2 text-gray-700 hover:text-blue-600'
+                      className='block py-2 text-gray-700 hover:text-blue-700 transition'
                     >
                       {item.label}
                     </NavLink>
@@ -187,14 +201,14 @@ const Navbar = () => {
                 </div>
               )}
 
-              {/* Fan links */}
+              {/* Fan Links */}
               {user !== "admin" &&
                 fanLinks.map((item) => (
                   <NavLink
                     key={item.to}
                     to={item.to}
                     onClick={() => setMobileMenu(false)}
-                    className='block py-2 text-gray-700 hover:text-blue-600'
+                    className='block py-2 text-gray-700 hover:text-blue-700 transition'
                   >
                     {item.label}
                   </NavLink>

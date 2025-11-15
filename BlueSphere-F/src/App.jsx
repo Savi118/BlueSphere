@@ -28,6 +28,7 @@ import AdminPolls from "./pages/admin/AdminPolls";
 
 // components
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 // Additional Pages
 import PlayerProfile from "./pages/additional/PlayerProfile";
@@ -68,6 +69,7 @@ function App() {
           <Route path='/admin/polls' element={<AdminPolls />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

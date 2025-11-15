@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Pencil, CalendarDays, Brain, Star } from "lucide-react";
+import { Pencil, CalendarDays, Brain, Star, Camera } from "lucide-react";
+
+const presetAvatars = [
+  "/avatars/avatar1.png",
+  "/avatars/avatar2.png",
+  "/avatars/avatar3.png",
+  "/avatars/avatar4.png",
+  "/avatars/avatar5.png",
+];
 
 const Profile = () => {
-  // USER DATA (Dummy for now)
+  // USER DATA (Dummy)
   const [user, setUser] = useState({
     name: "Saksham",
     email: "saksham@example.com",
     favoriteTeam: "India",
+    avatar: "/avatars/default.png", // Default profile picture
   });
 
   const [savedQuizzes] = useState([
@@ -25,9 +34,18 @@ const Profile = () => {
     { id: 2, title: "Top Run Scorer", prediction: "Gill", accuracy: "Pending" },
   ]);
 
-  // EDIT PROFILE MODAL
+  // MODAL
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState(user);
+
+  // Avatar upload preview
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imgURL = URL.createObjectURL(file);
+      setForm({ ...form, avatar: imgURL });
+    }
+  };
 
   const handleSave = () => {
     setUser(form);
@@ -40,8 +58,27 @@ const Profile = () => {
 
       {/* USER INFO CARD */}
       <section className='bg-white border shadow rounded-xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
+        {/* Avatar */}
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          className='flex flex-col items-center gap-2'
+        >
+          <img
+            src={user.avatar}
+            alt='Avatar'
+            className='w-28 h-28 rounded-full object-cover shadow-lg border border-gray-300'
+          />
+          <button
+            onClick={() => setShowModal(true)}
+            className='flex items-center gap-1 px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 border rounded-md'
+          >
+            <Camera size={16} /> Update Picture
+          </button>
+        </motion.div>
+
+        {/* User Info */}
         <div>
-          <h2 className='text-3xl font-bold text-blue-700 mb-3'>{user.name}</h2>
+          <h2 className='text-3xl font-bold text-blue-700 mb-2'>{user.name}</h2>
 
           <p className='text-gray-700'>
             ✉️ <span className='font-semibold'>Email:</span> {user.email}
@@ -52,8 +89,12 @@ const Profile = () => {
           </p>
         </div>
 
+        {/* Edit Profile Button */}
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setForm(user);
+            setShowModal(true);
+          }}
           className='px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 hover:bg-blue-700'
         >
           <Pencil size={18} /> Edit Profile
@@ -131,7 +172,7 @@ const Profile = () => {
         )}
       </section>
 
-      {/* EDIT PROFILE MODAL */}
+      {/* EDIT PROFILE + AVATAR MODAL */}
       {showModal && (
         <div className='fixed inset-0 bg-black/40 flex items-center justify-center'>
           <motion.div
@@ -141,6 +182,44 @@ const Profile = () => {
           >
             <h2 className='text-xl font-bold mb-4'>Edit Profile</h2>
 
+            {/* Avatar Preview */}
+            <div className='flex flex-col items-center mb-4'>
+              <img
+                src={form.avatar}
+                className='w-24 h-24 rounded-full object-cover border shadow'
+                alt='Avatar Preview'
+              />
+              <label className='mt-3 px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer text-sm'>
+                Upload Image
+                <input
+                  type='file'
+                  accept='image/*'
+                  className='hidden'
+                  onChange={handleAvatarUpload}
+                />
+              </label>
+            </div>
+
+            {/* Preset Avatar Gallery */}
+            <p className='text-gray-700 mb-2 text-sm font-semibold'>
+              Choose a preset avatar:
+            </p>
+            <div className='grid grid-cols-5 gap-3 mb-6'>
+              {presetAvatars.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  onClick={() => setForm({ ...form, avatar: img })}
+                  className={`w-14 h-14 rounded-full object-cover border cursor-pointer transition ${
+                    form.avatar === img
+                      ? "ring-4 ring-blue-500"
+                      : "hover:opacity-80"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Form Inputs */}
             <input
               placeholder='Full Name'
               className='w-full border p-2 rounded-lg mb-4'
