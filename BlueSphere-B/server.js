@@ -4,16 +4,14 @@ const cors = require("cors");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const connectDB = require("./config/db");
-const path = require("path");
 
 // Import Routes
-const authRoutes = require("./routes/auth.routes");
+const authRouter = require("./routes/authRoute");
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use();
 
 app.use(
   cors({
@@ -25,7 +23,7 @@ app.use(
 app.use(helmet());
 app.use(morgan("dev"));
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.json({ status: "Server running successfully 🚀" });
