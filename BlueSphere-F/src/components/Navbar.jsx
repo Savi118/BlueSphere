@@ -117,7 +117,7 @@ const Navbar = () => {
               )}
 
               {/* Fan Links */}
-              {user.role === "fan" &&
+              {user.role === "user" &&
                 fanLinks.map((item) => (
                   <NavLink
                     key={item.to}
@@ -207,7 +207,7 @@ const Navbar = () => {
                 </div>
               )}
 
-              {user.role === "fan" &&
+              {user.role === "user" &&
                 fanLinks.map((f) => (
                   <NavLink
                     key={f.to}

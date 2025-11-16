@@ -1,35 +1,66 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../redux/authSlice";
+import api from "../../utils/axios";
+import { useState } from "react";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // ✅ Yup Validation Schema
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
 
-    if (!name || !email || !password || !confirmPassword) {
-      toast.error("Please fill out all fields.");
-      return;
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters long")
+      .required("Password is required"),
+
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords do not match")
+      .required("Confirm your password"),
+  });
+
+  // 🔥 react-hook-form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  // 🔥 API Signup Handler
+  const onSubmit = async (formData) => {
+    try {
+      setLoading(true);
+      const res = await api.post("/auth/register", formData);
+
+      toast.success("Account created successfully 🎉");
+
+      // Auto login after signup
+      dispatch(loginSuccess(res.data));
+
+      navigate("/");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Signup failed");
+    } finally {
+      setLoading(false);
     }
-
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
-    }
-
-    toast.success("Account created successfully!");
-    setTimeout(() => navigate("/login"), 800);
   };
 
   return (
-    <div className='min-h-[85vh] flex items-center justify-center  px-4'>
+    <div className='min-h-[85vh] flex items-center justify-center px-4'>
       <motion.div
         initial={{ opacity: 0, y: -25 }}
         animate={{ opacity: 1, y: 0 }}
@@ -45,17 +76,21 @@ const Signup = () => {
         </p>
 
         {/* Form */}
-        <form className='space-y-5' onSubmit={handleRegister}>
-          {/* Full Name */}
+        <form className='space-y-5' onSubmit={handleSubmit(onSubmit)}>
+          {/* Name */}
           <div>
             <label className='font-semibold text-gray-700'>Full Name</label>
             <input
               type='text'
               placeholder='Your name'
-              className='w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              className={`w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring ${
+                errors.name ? "border-red-500" : "focus:ring-blue-300"
+              }`}
+              {...register("name")}
             />
+            {errors.name && (
+              <p className='text-red-500 text-sm mt-1'>{errors.name.message}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -64,10 +99,16 @@ const Signup = () => {
             <input
               type='email'
               placeholder='you@example.com'
-              className='w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              className={`w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring ${
+                errors.email ? "border-red-500" : "focus:ring-blue-300"
+              }`}
+              {...register("email")}
             />
+            {errors.email && (
+              <p className='text-red-500 text-sm mt-1'>
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           {/* Password */}
@@ -76,10 +117,16 @@ const Signup = () => {
             <input
               type='password'
               placeholder='Create a password'
-              className='w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              className={`w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring ${
+                errors.password ? "border-red-500" : "focus:ring-blue-300"
+              }`}
+              {...register("password")}
             />
+            {errors.password && (
+              <p className='text-red-500 text-sm mt-1'>
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           {/* Confirm Password */}
@@ -90,30 +137,39 @@ const Signup = () => {
             <input
               type='password'
               placeholder='Re-enter password'
-              className='w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring ${
+                errors.confirmPassword
+                  ? "border-red-500"
+                  : "focus:ring-blue-300"
+              }`}
+              {...register("confirmPassword")}
             />
+            {errors.confirmPassword && (
+              <p className='text-red-500 text-sm mt-1'>
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
 
-          {/* Button */}
+          {/* Submit */}
           <button
             type='submit'
-            className='w-full px-4 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold shadow hover:bg-blue-700 transition'
+            disabled={loading}
+            className='w-full px-4 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold shadow hover:bg-blue-700 disabled:bg-blue-400 transition'
           >
-            Register
+            {loading ? "Creating Account..." : "Register"}
           </button>
         </form>
 
         {/* Redirect */}
         <p className='mt-6 text-center text-gray-600'>
           Already have an account?{" "}
-          <a
-            href='/login'
+          <Link
+            to='/login'
             className='text-blue-600 font-semibold hover:underline'
           >
             Login
-          </a>
+          </Link>
         </p>
       </motion.div>
     </div>
