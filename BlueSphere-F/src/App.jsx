@@ -38,12 +38,18 @@ import MatchDetail from "./pages/additional/MatchDetail";
 import NewsDetail from "./pages/additional/NewsDetail";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import AdminRoute from "./utils/AdminRoute";
+import { Toaster } from "react-hot-toast";
 
 // utils
 
 function App() {
   return (
     <div className='min-h-screen flex flex-col bg-gray-50 text-gray-800'>
+      <Toaster
+        position='top-center'
+        reverseOrder={false}
+        toastOptions={{ duration: 3000 }}
+      />
       <Navbar />
 
       {/* Page content wrapper */}

@@ -1,38 +1,66 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../redux/authSlice";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import api from "../../utils/axios";
 
 const Signin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // Validation schema
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
 
-  // Simple Login handler (dummy logic)
-  const handleLogin = (e) => {
-    e.preventDefault();
+    password: Yup.string().required("Password is required"),
+  });
 
-    // VALIDATION
-    if (!email || !password) {
-      toast.error("Please enter both email and password.");
-      return;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  // Actual Login Handler
+  const onSubmit = async (formData) => {
+    try {
+      setLoading(true);
+
+      // ❗ Correct API call (no extra /api)
+      const res = await api.post("/auth/login", formData);
+
+      // Store user + token
+      dispatch(
+        loginSuccess({
+          user: res.data.user,
+          token: res.data.token,
+        })
+      );
+
+      toast.success("Login successful!");
+
+      // Redirect based on role
+      if (res.data.user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      // Interceptor already handles error toast
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
-
-    // Dummy credentials check
-    if (email === "admin@gmail.com" && password === "admin123") {
-      toast.success("Welcome Admin!");
-      setTimeout(() => navigate("/admin/dashboard"), 1000);
-      return;
-    }
-
-    if (email === "fan@gmail.com" && password === "fan123") {
-      toast.success("Logged in successfully!");
-      setTimeout(() => navigate("/"), 1000);
-      return;
-    }
-
-    toast.error("Invalid email or password");
   };
 
   return (
@@ -46,17 +74,23 @@ const Signin = () => {
           Login to BlueSphere
         </h1>
 
-        <form className='space-y-5' onSubmit={handleLogin}>
+        <form className='space-y-5' onSubmit={handleSubmit(onSubmit)}>
           {/* Email */}
           <div>
             <label className='font-semibold text-gray-700'>Email</label>
             <input
               type='email'
               placeholder='you@example.com'
-              className='w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-200'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              className={`w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring ${
+                errors.email ? "border-red-500" : "focus:ring-blue-200"
+              }`}
+              {...register("email")}
             />
+            {errors.email && (
+              <p className='text-red-500 text-sm mt-1'>
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           {/* Password */}
@@ -65,30 +99,35 @@ const Signin = () => {
             <input
               type='password'
               placeholder='Enter your password'
-              className='w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-200'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              className={`w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring ${
+                errors.password ? "border-red-500" : "focus:ring-blue-200"
+              }`}
+              {...register("password")}
             />
+            {errors.password && (
+              <p className='text-red-500 text-sm mt-1'>
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          {/* Submit */}
           <button
             type='submit'
-            className='w-full mt-4 px-4 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 shadow'
+            disabled={loading}
+            className='w-full mt-4 px-4 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 shadow disabled:bg-blue-400'
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        {/* Redirect link */}
         <p className='mt-4 text-center text-gray-600'>
           Don't have an account?{" "}
-          <a
-            href='/signup'
+          <Link
+            to='/signup'
             className='text-blue-600 font-semibold hover:underline'
           >
             Sign Up
-          </a>
+          </Link>
         </p>
       </motion.div>
     </div>
