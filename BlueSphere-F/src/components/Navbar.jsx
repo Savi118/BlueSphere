@@ -1,12 +1,13 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 
 const Navbar = () => {
-  let user = null;
-  // user = "admin";
-  user = "fan";
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [openDropdown, setOpenDropdown] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
 
   const baseLinks = [
@@ -19,17 +20,17 @@ const Navbar = () => {
     { to: "/contact", label: "Contact" },
   ];
 
+  const fanLinks = [
+    { to: "/favorites", label: "Favorites" },
+    { to: "/profile", label: "Profile" },
+  ];
+
   const adminLinks = [
     { to: "/admin/dashboard", label: "Dashboard" },
     { to: "/admin/players", label: "Manage Players" },
     { to: "/admin/matches", label: "Manage Matches" },
     { to: "/admin/news", label: "Manage News" },
     { to: "/admin/polls", label: "Manage Polls" },
-  ];
-
-  const fanLinks = [
-    { to: "/favorites", label: "Favorites" },
-    { to: "/profile", label: "Profile" },
   ];
 
   const linkClass =
@@ -39,7 +40,12 @@ const Navbar = () => {
     "after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-blue-700 after:rounded-full";
 
   const hoverUnderline =
-    "group-hover:after:w-full after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-blue-400 after:transition-all after:duration-300";
+    "group-hover:after:w-full after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-blue-400 after:duration-300";
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <header className='bg-white/70 backdrop-blur-md border-b border-blue-200 w-full px-6 py-3 shadow-sm sticky top-0 z-50'>
@@ -51,7 +57,7 @@ const Navbar = () => {
           </h1>
         </Link>
 
-        {/* Hamburger (Mobile) */}
+        {/* Hamburger */}
         <button
           onClick={() => setMobileMenu(!mobileMenu)}
           className='md:hidden text-gray-700 text-3xl focus:outline-none'
@@ -61,10 +67,10 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <nav className='hidden md:flex items-center gap-4 text-lg'>
-          {baseLinks.map((item) => (
+          {baseLinks.map((l) => (
             <NavLink
-              key={item.to}
-              to={item.to}
+              key={l.to}
+              to={l.to}
               className={({ isActive }) =>
                 `${linkClass} ${
                   isActive
@@ -73,21 +79,18 @@ const Navbar = () => {
                 }`
               }
             >
-              {item.label}
+              {l.label}
             </NavLink>
           ))}
 
-          {user === null ? (
+          {!user ? (
             <>
-              {/* Sign In */}
               <Link
                 to='/login'
-                className='px-4 py-2 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white shadow-sm transition font-semibold'
+                className='px-4 py-2 border border-blue-500 text-blue-700 rounded-lg hover:bg-blue-600 hover:text-white shadow-sm font-semibold'
               >
                 Sign In
               </Link>
-
-              {/* Join */}
               <Link
                 to='/signup'
                 className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-lg font-semibold'
@@ -97,32 +100,24 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              {/* Admin Dropdown */}
-              {user === "admin" ? (
-                <div className='relative'>
-                  <button
-                    onClick={() => setOpenDropdown(!openDropdown)}
-                    className='px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 flex items-center gap-1'
-                  >
-                    Admin Panel ▾
-                  </button>
+              {/* Admin Panel */}
+              {user.role === "admin" && (
+                <NavLink
+                  to='/admin/dashboard'
+                  className={({ isActive }) =>
+                    `${linkClass} ${
+                      isActive
+                        ? "text-blue-800 font-semibold " + activeUnderline
+                        : hoverUnderline
+                    }`
+                  }
+                >
+                  Admin Panel
+                </NavLink>
+              )}
 
-                  {openDropdown && (
-                    <div className='absolute top-12 right-0 bg-white shadow-xl border border-gray-200 rounded-lg w-64 py-2 z-50 animate-fadeIn'>
-                      {adminLinks.map((item) => (
-                        <NavLink
-                          key={item.to}
-                          to={item.to}
-                          onClick={() => setOpenDropdown(false)}
-                          className='block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition'
-                        >
-                          {item.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
+              {/* Fan Links */}
+              {user.role === "fan" &&
                 fanLinks.map((item) => (
                   <NavLink
                     key={item.to}
@@ -137,11 +132,22 @@ const Navbar = () => {
                   >
                     {item.label}
                   </NavLink>
-                ))
+                ))}
+
+              {/* Avatar */}
+              {user.avatar && (
+                <img
+                  src={user.avatar}
+                  alt='User Avatar'
+                  className='w-10 h-10 rounded-full border border-blue-400 shadow'
+                />
               )}
 
-              {/* Logout Button */}
-              <button className='ml-4 px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600'>
+              {/* Logout */}
+              <button
+                onClick={handleLogout}
+                className='ml-4 px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600'
+              >
                 Logout
               </button>
             </>
@@ -151,7 +157,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenu && (
-        <div className='md:hidden mt-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-lg shadow-lg p-4 space-y-3 animate-fadeIn'>
+        <div className='md:hidden mt-4 bg-white/90 backdrop-blur-md border rounded-lg shadow-lg p-4 space-y-3'>
           {baseLinks.map((item) => (
             <NavLink
               key={item.to}
@@ -163,7 +169,7 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {user === null ? (
+          {!user ? (
             <>
               <Link
                 to='/login'
@@ -172,6 +178,7 @@ const Navbar = () => {
               >
                 Sign In
               </Link>
+
               <Link
                 to='/signup'
                 onClick={() => setMobileMenu(false)}
@@ -182,39 +189,48 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              {/* Admin Panel */}
-              {user === "admin" && (
+              {user.role === "admin" && (
                 <div className='pt-2 border-t'>
                   <p className='font-semibold text-gray-800 mb-2'>
                     Admin Panel
                   </p>
-                  {adminLinks.map((item) => (
+                  {adminLinks.map((a) => (
                     <NavLink
-                      key={item.to}
-                      to={item.to}
+                      key={a.to}
+                      to={a.to}
                       onClick={() => setMobileMenu(false)}
-                      className='block py-2 text-gray-700 hover:text-blue-700 transition'
+                      className='block py-2 text-gray-700 hover:text-blue-700'
                     >
-                      {item.label}
+                      {a.label}
                     </NavLink>
                   ))}
                 </div>
               )}
 
-              {/* Fan Links */}
-              {user !== "admin" &&
-                fanLinks.map((item) => (
+              {user.role === "fan" &&
+                fanLinks.map((f) => (
                   <NavLink
-                    key={item.to}
-                    to={item.to}
+                    key={f.to}
+                    to={f.to}
                     onClick={() => setMobileMenu(false)}
-                    className='block py-2 text-gray-700 hover:text-blue-700 transition'
+                    className='block py-2 text-gray-700 hover:text-blue-700'
                   >
-                    {item.label}
+                    {f.label}
                   </NavLink>
                 ))}
 
-              <button className='w-full py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600'>
+              {/* Avatar */}
+              {user.avatar && (
+                <img
+                  src={user.avatar}
+                  className='w-12 h-12 rounded-full mx-auto border border-blue-400 shadow'
+                />
+              )}
+
+              <button
+                onClick={handleLogout}
+                className='w-full py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600'
+              >
                 Logout
               </button>
             </>

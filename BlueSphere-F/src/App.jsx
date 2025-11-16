@@ -36,6 +36,10 @@ import Footer from "./components/Footer";
 import PlayerProfile from "./pages/additional/PlayerProfile";
 import MatchDetail from "./pages/additional/MatchDetail";
 import NewsDetail from "./pages/additional/NewsDetail";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import AdminRoute from "./utils/AdminRoute";
+
+// utils
 
 function App() {
   return (
@@ -60,17 +64,80 @@ function App() {
           <Route path='/login' element={<Signin />} />
 
           {/* Fan Routes */}
-          <Route path='/favorites' element={<Favorites />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route
+            path='/favorites'
+            element={
+              <ProtectedRoute>
+                <Favorites />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Admin Routes */}
-          <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/admin/players' element={<AdminPlayers />} />
-          <Route path='/admin/matches' element={<AdminMatches />} />
-          <Route path='/admin/news' element={<AdminNews />} />
-          <Route path='/admin/polls' element={<AdminPolls />} />
-          <Route path='/admin/comments' element={<AdminComments />} />
-          <Route path='/admin/analytics' element={<AdminAnalytics />} />
+          <Route
+            path='/admin/dashboard'
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path='/admin/players'
+            element={
+              <AdminRoute>
+                <AdminPlayers />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path='/admin/matches'
+            element={
+              <AdminRoute>
+                <AdminMatches />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path='/admin/news'
+            element={
+              <AdminRoute>
+                <AdminNews />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path='/admin/polls'
+            element={
+              <AdminRoute>
+                <AdminPolls />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path='/admin/comments'
+            element={
+              <AdminRoute>
+                <AdminComments />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path='/admin/analytics'
+            element={
+              <AdminRoute>
+                <AdminAnalytics />
+              </AdminRoute>
+            }
+          />
         </Routes>
       </main>
       <Footer />
