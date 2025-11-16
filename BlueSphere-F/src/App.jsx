@@ -25,6 +25,8 @@ import AdminPlayers from "./pages/admin/AdminPlayers";
 import AdminMatches from "./pages/admin/AdminMatches";
 import AdminNews from "./pages/admin/AdminNews";
 import AdminPolls from "./pages/admin/AdminPolls";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminComments from "./pages/admin/AdminComments";
 
 // components
 import Navbar from "./components/Navbar";
@@ -67,6 +69,8 @@ function App() {
           <Route path='/admin/matches' element={<AdminMatches />} />
           <Route path='/admin/news' element={<AdminNews />} />
           <Route path='/admin/polls' element={<AdminPolls />} />
+          <Route path='/admin/comments' element={<AdminComments />} />
+          <Route path='/admin/analytics' element={<AdminAnalytics />} />
         </Routes>
       </main>
       <Footer />
